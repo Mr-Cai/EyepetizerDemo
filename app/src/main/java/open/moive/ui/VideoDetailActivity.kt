@@ -9,7 +9,6 @@ import android.graphics.Typeface
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
-import android.os.Message
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -28,32 +27,27 @@ import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.util.concurrent.ExecutionException
 
-
-/**
- * Created by lvruheng on 2017/7/7.
- */
 class VideoDetailActivity : AppCompatActivity() {
     companion object {
         var MSG_IMAGE_LOADED = 101
     }
 
-    var mContext: Context = this
-    lateinit var imageView: ImageView
+    private var mContext: Context = this
+    private lateinit var imageView: ImageView
     lateinit var bean: VideoBean
-    var isPlay: Boolean = false
-    var isPause: Boolean = false
-    lateinit var orientationUtils: OrientationUtils
-    var mHandler: Handler = object : Handler() {
-        override fun handleMessage(msg: Message?) {
-            super.handleMessage(msg)
-            when (msg?.what) {
-                MSG_IMAGE_LOADED -> {
-                    Log.e("video", "setImage")
-                    gsy_player.thumbImageView = imageView
-                }
+    private var isPlay: Boolean = false
+    private var isPause: Boolean = false
+    private lateinit var orientationUtils: OrientationUtils
+
+    private var mHandler = Handler(Handler.Callback { msg ->
+        when (msg?.what) {
+            MSG_IMAGE_LOADED -> {
+                Log.e("video", "setImage")
+                gsy_player.thumbImageView = imageView
             }
         }
-    }
+        false
+    })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,28 +57,29 @@ class VideoDetailActivity : AppCompatActivity() {
         prepareVideo()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initView() {
-        var bgUrl = bean.blurred
+        val bgUrl = bean.blurred
         bgUrl?.let { ImageLoadUtils.displayHigh(this, iv_bottom_bg, bgUrl) }
         tv_video_desc.text = bean.description
         tv_video_desc.typeface = Typeface.createFromAsset(this.assets, "fonts/FZLanTingHeiS-DB1-GB-Regular.TTF")
         tv_video_title.text = bean.title
         tv_video_title.typeface = Typeface.createFromAsset(this.assets, "fonts/FZLanTingHeiS-L-GB-Regular.TTF")
-        var category = bean.category
-        var duration = bean.duration
-        var minute = duration?.div(60)
-        var second = duration?.minus((minute?.times(60)) as Long)
-        var realMinute: String
-        var realSecond: String
-        if (minute!! < 10) {
-            realMinute = "0" + minute
+        val category = bean.category
+        val duration = bean.duration
+        val minute = duration?.div(60)
+        val second = duration?.minus((minute?.times(60)) as Long)
+        val realMinute: String
+        val realSecond: String
+        realMinute = if (minute!! < 10) {
+            "0$minute"
         } else {
-            realMinute = minute.toString()
+            minute.toString()
         }
-        if (second!! < 10) {
-            realSecond = "0" + second
+        realSecond = if (second!! >= 10) {
+            second.toString()
         } else {
-            realSecond = second.toString()
+            "0$second"
         }
         tv_video_time.text = "$category / $realMinute'$realSecond''"
         tv_video_favor.text = bean.collect.toString()
@@ -92,13 +87,13 @@ class VideoDetailActivity : AppCompatActivity() {
         tv_video_reply.text = bean.share.toString()
         tv_video_download.setOnClickListener {
             //点击下载
-            var url = bean.playUrl?.let { it1 -> SPUtils.getInstance(this, "downloads").getString(it1) }
+            val url = bean.playUrl?.let { it1 -> SPUtils.getInstance(this, "downloads").getString(it1) }
             if (url.equals("")) {
                 var count = SPUtils.getInstance(this, "downloads").getInt("count")
-                if (count != -1) {
-                    count = count.inc()
+                count = if (count != -1) {
+                    count.inc()
                 } else {
-                    count = 1
+                    1
                 }
                 SPUtils.getInstance(this, "downloads").put("count", count)
                 ObjectSaveUtils.saveObject(this, "download$count", bean)
@@ -121,7 +116,7 @@ class VideoDetailActivity : AppCompatActivity() {
     }
 
     private fun prepareVideo() {
-        var uri = intent.getStringExtra("loaclFile")
+        val uri = intent.getStringExtra("loaclFile")
         if (uri != null) {
             Log.e("uri", uri)
             gsy_player.setUp(uri, false, null, null)
@@ -147,19 +142,6 @@ class VideoDetailActivity : AppCompatActivity() {
             //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusbar
             gsy_player.startWindowFullscreen(mContext, true, true)
         }
-        /*gsy_player.setStandardVideoAllCallBack(object : VideoListener() {
-            override fun onPrepared(url: String?, vararg objects: Any?) {
-                super.onPrepared(url, *objects)
-                //开始播放了才能旋转和全屏
-                orientationUtils.isEnable = true
-                isPlay = true
-            }
-
-            override fun onQuitFullscreen(url: String?, vararg objects: Any?) {
-                super.onQuitFullscreen(url, *objects)
-                orientationUtils.let { orientationUtils.backToProtVideo() }
-            }
-        })*/
         gsy_player.setLockClickListener { view, lock ->
             //配合下方的onConfigurationChanged
             orientationUtils.isEnable = !lock
@@ -170,8 +152,7 @@ class VideoDetailActivity : AppCompatActivity() {
 
     }
 
-    private class ImageViewAsyncTask(handler: Handler, activity: VideoDetailActivity, private val mImageView: ImageView) : AsyncTask<String, Void, String>() {
-        private var handler = handler
+    private class ImageViewAsyncTask(private var handler: Handler, activity: VideoDetailActivity, private val mImageView: ImageView) : AsyncTask<String, Void, String>() {
         private var mPath: String? = null
         private var mIs: FileInputStream? = null
         private var mActivity: VideoDetailActivity = activity
@@ -200,7 +181,7 @@ class VideoDetailActivity : AppCompatActivity() {
             }
             val bitmap = BitmapFactory.decodeStream(mIs)
             mImageView.setImageBitmap(bitmap)
-            var message = handler.obtainMessage()
+            val message = handler.obtainMessage()
             message.what = MSG_IMAGE_LOADED
             handler.sendMessage(message)
         }
@@ -210,9 +191,6 @@ class VideoDetailActivity : AppCompatActivity() {
         orientationUtils.let {
             orientationUtils.backToProtVideo()
         }
-        /* if (StandardGSYVideoPlayer.backFromWindowFull(this)) {
-             return
-         }*/
         super.onBackPressed()
     }
 
@@ -228,7 +206,6 @@ class VideoDetailActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        //    GSYVideoPlayer.releaseAllVideos()
         orientationUtils.let {
             orientationUtils.releaseListener()
         }

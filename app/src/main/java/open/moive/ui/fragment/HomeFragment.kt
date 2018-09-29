@@ -4,23 +4,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.home_fragment.*
+import open.moive.R
+import open.moive.adapter.HomeAdapter
+import open.moive.mvp.contract.HomeContract
+import open.moive.mvp.model.bean.HomeBean
 import open.moive.mvp.model.bean.HomeBean.IssueListBean.ItemListBean
+import open.moive.mvp.presenter.HomePresenter
 import java.util.*
 import java.util.regex.Pattern
-import open.moive.R
-import open.moive.adapter.HomeAdatper
-import open.moive.mvp.presenter.HomePresenter
 
-/**
- * Created by lvruheng on 2017/7/4.
- */
-class HomeFragment : BaseFragment(), open.moive.mvp.contract.HomeContract.View, SwipeRefreshLayout.OnRefreshListener {
-    var mIsRefresh: Boolean = false
+class HomeFragment : BaseFragment(), HomeContract.View, SwipeRefreshLayout.OnRefreshListener {
+    private var mIsRefresh: Boolean = false
     var mPresenter: HomePresenter? = null
     var mList = ArrayList<ItemListBean>()
-    var mAdapter: HomeAdatper? = null
+    private var mAdapter: HomeAdapter? = null
     var data: String? = null
-    override fun setData(bean: open.moive.mvp.model.bean.HomeBean) {
+    override fun setData(bean: HomeBean) {
         val regEx = "[^0-9]"
         val p = Pattern.compile(regEx)
         val m = p.matcher(bean.nextPageUrl)
@@ -41,27 +40,22 @@ class HomeFragment : BaseFragment(), open.moive.mvp.contract.HomeContract.View, 
     }
 
 
-    override fun getLayoutResources(): Int {
-        return R.layout.home_fragment
-    }
+    override fun getLayoutResources(): Int = R.layout.home_fragment
 
     override fun initView() {
-        mPresenter = open.moive.mvp.presenter.HomePresenter(context!!, this)
+        mPresenter = HomePresenter(context!!, this)
         mPresenter?.start()
         recyclerView.layoutManager = LinearLayoutManager(context)
-        mAdapter = open.moive.adapter.HomeAdatper(context!!, mList)
+        mAdapter = HomeAdapter(context!!, mList)
         recyclerView.adapter = mAdapter
         refreshLayout.setOnRefreshListener(this)
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                var layoutManager: LinearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
-                var lastPositon = layoutManager.findLastVisibleItemPosition()
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastPositon == mList.size - 1) {
-                    if (data != null) {
-                        mPresenter?.moreData(data)
-                    }
-
+                val layoutManager: LinearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val lastPosition = layoutManager.findLastVisibleItemPosition()
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastPosition == mList.size - 1) {
+                    if (data != null) mPresenter?.moreData(data)
                 }
             }
         })

@@ -21,11 +21,11 @@ import zlc.season.rxdownload2.RxDownload
 class CacheActivity : AppCompatActivity() {
     var mList = ArrayList<VideoBean>()
     lateinit var mAdapter: DownloadAdapter
-    var mHandler: Handler = @SuppressLint("HandlerLeak")
+    private var mHandler: Handler = @SuppressLint("HandlerLeak")
     object : Handler() {
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
-            var list = msg?.data?.getParcelableArrayList<open.moive.mvp.model.bean.VideoBean>("beans")
+            val list = msg?.data?.getParcelableArrayList<VideoBean>("beans")
             if (list?.size?.compareTo(0) == 0) {
                 tv_hint.visibility = View.VISIBLE
             } else {
@@ -48,7 +48,7 @@ class CacheActivity : AppCompatActivity() {
         DataAsyncTask(mHandler, this).execute()
         recyclerView.layoutManager = LinearLayoutManager(this)
         mAdapter = open.moive.adapter.DownloadAdapter(this, mList)
-        mAdapter.setOnLongClickListener(object : open.moive.adapter.DownloadAdapter.OnLongClickListener {
+        mAdapter.setOnLongClickListener(object : DownloadAdapter.OnLongClickListener {
             override fun onLongClick(position: Int) {
                 addDialog(position)
             }

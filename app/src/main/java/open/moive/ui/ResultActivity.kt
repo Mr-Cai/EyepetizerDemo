@@ -13,14 +13,12 @@ import open.moive.mvp.contract.ResultContract
 import open.moive.mvp.model.bean.HotBean
 import open.moive.mvp.presenter.ResultPresenter
 
-/**
- * Created by lvruheng on 2017/7/11.
- */
-class ResultActivity : AppCompatActivity(), ResultContract.View, SwipeRefreshLayout.OnRefreshListener {
+class ResultActivity : AppCompatActivity(), ResultContract.View,
+        SwipeRefreshLayout.OnRefreshListener {
     lateinit var keyWord: String
     lateinit var mPresenter: ResultPresenter
-    lateinit var mAdapter: FeedAdapter
-    var mIsRefresh: Boolean = false
+    private lateinit var mAdapter: FeedAdapter
+    private var mIsRefresh: Boolean = false
     var mList = ArrayList<HotBean.ItemListBean.DataBean>()
     var start: Int = 10
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,9 +36,9 @@ class ResultActivity : AppCompatActivity(), ResultContract.View, SwipeRefreshLay
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                var layoutManager: LinearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
-                var lastPositon = layoutManager.findLastVisibleItemPosition()
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastPositon == mList.size - 1) {
+                val layoutManager: LinearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val lastPosition = layoutManager.findLastVisibleItemPosition()
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastPosition == mList.size - 1) {
                     start = start.plus(10)
                     mPresenter.requestData(keyWord, start)
                 }
@@ -50,7 +48,7 @@ class ResultActivity : AppCompatActivity(), ResultContract.View, SwipeRefreshLay
 
     private fun setToolbar() {
         setSupportActionBar(toolbar)
-        var bar = supportActionBar!!
+        val bar = supportActionBar!!
         bar.title = "'$keyWord' 相关"
         bar.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener {

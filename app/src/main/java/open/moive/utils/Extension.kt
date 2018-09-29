@@ -9,11 +9,8 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-/**
- * Created by lvruheng on 2017/7/2.
- */
 fun Context.showToast(message: String) : Toast {
-    var toast : Toast = Toast.makeText(this,message,Toast.LENGTH_SHORT)
+    val toast : Toast = Toast.makeText(this,message,Toast.LENGTH_SHORT)
     toast.setGravity(Gravity.CENTER,0,0)
     toast.show()
     return toast

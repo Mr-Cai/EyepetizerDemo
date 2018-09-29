@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
  * Created by lvruheng on 2017/7/4.
  */
 class RetrofitClient private constructor(context: Context, baseUrl: String) {
-    var httpCacheDirectory: File? = null
+    private var httpCacheDirectory: File? = null
     val mContext: Context = context
     var cache: Cache? = null
     var okHttpClient: OkHttpClient? = null
