@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="open.moive">
+    package="open.movie">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.SplashActivity"
+            android:name="open.movie.ui.SplashActivity"
             android:theme="@style/Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,18 +26,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.MainActivity"
+            android:name="open.movie.ui.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.VideoDetailActivity"
+            android:name="open.movie.ui.VideoDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/Video" />
-        <activity android:name=".ui.FindDetailActivity" />
-        <activity android:name=".ui.ResultActivity" />
-        <activity android:name=".ui.WatchActivity" />
-        <activity android:name=".ui.AdviseActivity" />
-        <activity android:name=".ui.CacheActivity" />
+        <activity android:name="open.movie.ui.FindDetailActivity" />
+        <activity android:name="open.movie.ui.ResultActivity" />
+        <activity android:name="open.movie.ui.WatchActivity" />
+        <activity android:name="open.movie.ui.AdviseActivity" />
+        <activity android:name="open.movie.ui.CacheActivity" />
     </application>
 
 </manifest>
