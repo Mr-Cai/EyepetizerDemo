@@ -13,7 +13,7 @@ import com.gyf.barlibrary.ImmersionBar
 import kotlinx.android.synthetic.main.activity_watch.*
 import open.movie.R
 import open.movie.adapter.DownloadAdapter
-import open.movie.mvp.model.bean.VideoBean
+import open.movie.utils.mvp.VideoBean
 import open.movie.utils.ObjectSaveUtils
 import open.movie.utils.SPUtils
 import zlc.season.rxdownload2.RxDownload
@@ -89,15 +89,15 @@ class CacheActivity : AppCompatActivity() {
         }
     }
 
-    private class DataAsyncTask(handler: Handler, activity: CacheActivity) : AsyncTask<Void, Void, ArrayList<open.movie.mvp.model.bean.VideoBean>>() {
+    private class DataAsyncTask(handler: Handler, activity: CacheActivity) : AsyncTask<Void, Void, ArrayList<VideoBean>>() {
         var activity: CacheActivity = activity
         var handler = handler
-        override fun doInBackground(vararg params: Void?): ArrayList<open.movie.mvp.model.bean.VideoBean>? {
-            var list = ArrayList<open.movie.mvp.model.bean.VideoBean>()
+        override fun doInBackground(vararg params: Void?): ArrayList<VideoBean>? {
+            var list = ArrayList<VideoBean>()
             var count: Int = SPUtils.getInstance(activity, "downloads").getInt("count")
             var i = 1
             while (i.compareTo(count) <= 0) {
-                var bean: open.movie.mvp.model.bean.VideoBean
+                var bean: VideoBean
                 if (ObjectSaveUtils.getValue(activity, "download$i") == null) {
                     continue
                 } else {
@@ -109,7 +109,7 @@ class CacheActivity : AppCompatActivity() {
             return list
         }
 
-        override fun onPostExecute(result: ArrayList<open.movie.mvp.model.bean.VideoBean>?) {
+        override fun onPostExecute(result: ArrayList<VideoBean>?) {
             super.onPostExecute(result)
             var message = handler.obtainMessage()
             var bundle = Bundle()

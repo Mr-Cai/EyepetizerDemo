@@ -1,63 +1,27 @@
 package open.movie.utils
 
 import android.content.Context
-import java.io.*
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
 
-/**
- * Created by lvruheng on 2017/7/11.
- */
-object ObjectSaveUtils{
+object ObjectSaveUtils {
     fun saveObject(context: Context, name: String, value: Any) {
-        var fos: FileOutputStream? = null
-        var oos: ObjectOutputStream? = null
-        try {
-            fos = context.openFileOutput(name, Context.MODE_PRIVATE)
-            oos = ObjectOutputStream(fos)
-            oos.writeObject(value)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        } finally {
-            if (fos != null) {
-                fos.close()
-            }
-            if (oos != null) {
-                oos.close()
-            }
-        }
+        val fos: FileOutputStream = context.openFileOutput(name, Context.MODE_PRIVATE)
+        val oos: ObjectOutputStream?
+        oos = ObjectOutputStream(fos)
+        oos.writeObject(value)
     }
+
     fun getValue(context: Context, name: String): Any? {
-        var fis: FileInputStream? = null
-        var ois: ObjectInputStream? = null
-        try {
-            fis = context.openFileInput(name)
-            if(fis==null){
-                return null
-            }
-            ois = ObjectInputStream(fis)
-            return ois.readObject()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        } finally {
-            if (fis != null) {
-                try {
-                    fis.close()
-                } catch (e: IOException) {
-                    // fis流关闭异常
-                    e.printStackTrace()
-                }
-            }
-            if (ois != null) {
-                try {
-                    ois.close()
-                } catch (e: IOException) {
-                    // ois流关闭异常
-                    e.printStackTrace()
-                }
-            }
-        }
-        return null
+        val fis: FileInputStream = context.openFileInput(name)
+        val ois: ObjectInputStream
+        ois = ObjectInputStream(fis)
+        return ois.readObject()
     }
-    fun deleteFile(name: String,context: Context){
+
+    fun deleteFile(name: String, context: Context) {
         context.deleteFile(name)
     }
 }

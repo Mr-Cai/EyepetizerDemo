@@ -11,6 +11,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import open.movie.R
+import open.movie.utils.mvp.HotBean
+import open.movie.utils.mvp.VideoBean
 import open.movie.ui.VideoDetailActivity
 import open.movie.utils.ImageLoadUtils
 import open.movie.utils.ObjectSaveUtils
@@ -20,10 +22,10 @@ import java.text.SimpleDateFormat
 /**
  * Created by lvruheng on 2017/7/7.
  */
-class FeedAdapter(context: Context, list: ArrayList<open.movie.mvp.model.bean.HotBean.ItemListBean.DataBean>) : RecyclerView.Adapter<open.movie.adapter.FeedAdapter.FeedViewHolder>() {
+class FeedAdapter(context: Context, list: ArrayList<HotBean.ItemListBean.DataBean>) : RecyclerView.Adapter<open.movie.adapter.FeedAdapter.FeedViewHolder>() {
 
     var context: Context? = null
-    var list: ArrayList<open.movie.mvp.model.bean.HotBean.ItemListBean.DataBean>? = null
+    var list: ArrayList<HotBean.ItemListBean.DataBean>? = null
     var inflater: LayoutInflater? = null
 
     init {
@@ -76,7 +78,7 @@ class FeedAdapter(context: Context, list: ArrayList<open.movie.mvp.model.bean.Ho
             var share = list?.get(position)?.consumption?.shareCount
             var reply = list?.get(position)?.consumption?.replyCount
             var time = System.currentTimeMillis()
-            var videoBean = open.movie.mvp.model.bean.VideoBean(photoUrl, title, desc, duration, playUrl, category, blurred, collect, share, reply, time)
+            var videoBean = VideoBean(photoUrl, title, desc, duration, playUrl, category, blurred, collect, share, reply, time)
             var url = SPUtils.getInstance(context!!, "beans").getString(playUrl!!)
             if (url.equals("")) {
                 var count = SPUtils.getInstance(context!!, "beans").getInt("count")

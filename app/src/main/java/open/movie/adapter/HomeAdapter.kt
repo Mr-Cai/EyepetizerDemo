@@ -1,5 +1,6 @@
 package open.movie.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
@@ -12,8 +13,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_home.view.*
 import open.movie.R
-import open.movie.mvp.model.bean.HomeBean
-import open.movie.mvp.model.bean.VideoBean
+import open.movie.utils.mvp.HomeBean
+import open.movie.utils.mvp.VideoBean
 import open.movie.ui.VideoDetailActivity
 import open.movie.utils.ImageLoadUtils
 import open.movie.utils.ObjectSaveUtils
@@ -35,10 +36,10 @@ class HomeAdapter(
 
     override fun getItemCount(): Int = list.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeAdapter.HomeViewHolder {
-        return HomeAdapter.HomeViewHolder(inflater.inflate(R.layout.item_home, parent, false), context!!)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            HomeAdapter.HomeViewHolder(inflater.inflate(R.layout.item_home, parent, false), context!!)
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: HomeAdapter.HomeViewHolder, position: Int) {
         val bean = list[position]
         val title = bean.data.title
@@ -59,13 +60,13 @@ class HomeAdapter(
         }
         val photo = bean.data.cover?.feed
         val author = bean.data.author
-        ImageLoadUtils.display(context!!, holder.iv_photo, photo as String)
-        holder.tv_title.text = title
-        holder.DetailTxT.text = "发布于 $category / $realMinute:$realSecond"
+        ImageLoadUtils.display(context!!, holder.photoPic, photo as String)
+        holder.titleTxT.text = title
+        holder.detailTxT.text = "发布于$category/$realMinute:$realSecond"
         if (author != null) {
-            ImageLoadUtils.display(context!!, holder.iv_user, author.icon)
+            ImageLoadUtils.display(context!!, holder.userPic, author.icon)
         } else {
-            holder.iv_user?.visibility = View.GONE
+            holder.userPic?.visibility = View.GONE
         }
         holder.itemView.setOnClickListener {
             //跳转视频详情页
@@ -94,11 +95,7 @@ class HomeAdapter(
             val url = SPUtils.getInstance(context!!, "beans").getString(playUrl)
             if (url == "") {
                 var count = SPUtils.getInstance(context!!, "beans").getInt("count")
-                count = if (count != -1) {
-                    count.inc()
-                } else {
-                    1
-                }
+                count = (if (count != -1) count.inc() else 1)
                 SPUtils.getInstance(context!!, "beans").put("count", count)
                 SPUtils.getInstance(context!!, "beans").put(playUrl, playUrl)
                 ObjectSaveUtils.saveObject(context!!, "bean$count", videoBean)
@@ -109,14 +106,13 @@ class HomeAdapter(
     }
 
     class HomeViewHolder(itemView: View, context: Context) : RecyclerView.ViewHolder(itemView) {
-        var DetailTxT: TextView = itemView.tv_detail
-        var tv_title: TextView = itemView.tv_title
-        var tv_time: TextView? = null
-        var iv_photo: ImageView = itemView.iv_photo
-        var iv_user: ImageView? = itemView.iv_user
+        var detailTxT: TextView = itemView.tv_detail
+        var titleTxT: TextView = itemView.tv_title
+        var photoPic: ImageView = itemView.iv_photo
+        var userPic: ImageView? = itemView.iv_user
 
         init {
-            tv_title.typeface = Typeface.createFromAsset(context.assets, "fonts/FZLanTingHeiS-DB1-GB-Regular.TTF")
+            titleTxT.typeface = Typeface.createFromAsset(context.assets, "fonts/FZLanTingHeiS-DB1-GB-Regular.TTF")
         }
     }
 

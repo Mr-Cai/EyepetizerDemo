@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import open.movie.R
+import open.movie.utils.mvp.VideoBean
 import open.movie.ui.VideoDetailActivity
 import open.movie.utils.ImageLoadUtils
 import open.movie.utils.ObjectSaveUtils
@@ -20,10 +21,10 @@ import java.text.SimpleDateFormat
 /**
  * Created by lvruheng on 2017/7/7.
  */
-class WatchAdapter(context: Context, list: ArrayList<open.movie.mvp.model.bean.VideoBean>) : RecyclerView.Adapter<open.movie.adapter.WatchAdapter.WatchViewHolder>() {
+class WatchAdapter(context: Context, list: ArrayList<VideoBean>) : RecyclerView.Adapter<open.movie.adapter.WatchAdapter.WatchViewHolder>() {
 
     var context: Context? = null
-    var list: ArrayList<open.movie.mvp.model.bean.VideoBean>? = null
+    var list: ArrayList<VideoBean>? = null
     var inflater: LayoutInflater? = null
 
     init {
@@ -71,7 +72,7 @@ class WatchAdapter(context: Context, list: ArrayList<open.movie.mvp.model.bean.V
             var share = list?.get(position)?.share
             var reply = list?.get(position)?.reply
             var time = System.currentTimeMillis()
-            var videoBean = open.movie.mvp.model.bean.VideoBean(photoUrl, title, desc, duration, playUrl, category, blurred, collect, share, reply, time)
+            var videoBean = VideoBean(photoUrl, title, desc, duration, playUrl, category, blurred, collect, share, reply, time)
             var url = SPUtils.getInstance(context!!, "beans").getString(playUrl!!)
             if (url.equals("")) {
                 var count = SPUtils.getInstance(context!!, "beans").getInt("count")

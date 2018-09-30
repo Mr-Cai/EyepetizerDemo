@@ -3,48 +3,34 @@ package open.movie.utils
 import android.content.Context
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import open.movie.R
 
-/**
- * Created by lvruheng on 2017/7/6.
- */
 class ImageLoadUtils {
     companion object {
-
-        /*
-
-
-          .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .centerCrop()
-                    .placeholder(R.drawable.ic_image_loading)
-                    .error(R.drawable.ic_empty_picture)
-                    .crossFade()
-
-
-
-        *  .asBitmap()
-                    .format(DecodeFormat.PREFER_ARGB_8888)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .centerCrop()
-                    .placeholder(R.drawable.ic_image_loading)
-                    .error(R.drawable.ic_empty_picture)
-        *
-        * */
         fun display(context: Context, imageView: ImageView?, url: String) {
             if (imageView == null) {
                 throw IllegalArgumentException("argument error")
             }
-            Glide.with(context).load(url)
-                    .into(imageView)
+            val requestOptions = RequestOptions
+                    .diskCacheStrategyOf(DiskCacheStrategy.ALL)
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_image_loading)
+                    .error(R.drawable.ic_empty_picture)
+            Glide.with(context).load(url).apply(requestOptions).into(imageView)
         }
 
         fun displayHigh(context: Context, imageView: ImageView?, url: String) {
             if (imageView == null) {
                 throw IllegalArgumentException("argument error")
             }
-
-            Glide.with(context).load(url)
-                    .into(imageView)
+            val requestOptions = RequestOptions
+                    .diskCacheStrategyOf(DiskCacheStrategy.ALL)
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_image_loading)
+                    .error(R.drawable.ic_empty_picture)
+            Glide.with(context).load(url).apply(requestOptions).into(imageView)
         }
     }
-
 }

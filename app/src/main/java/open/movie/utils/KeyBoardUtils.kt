@@ -4,10 +4,6 @@ import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 
-
-/**
- * Created by lvruheng on 2017/7/9.
- */
 object KeyBoardUtils {
 
     fun openKeyboard(context: Context, editText: EditText) {

@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import kotlinx.android.synthetic.main.activity_video_detail.*
 import open.movie.R
-import open.movie.mvp.model.bean.VideoBean
+import open.movie.utils.mvp.VideoBean
 import open.movie.utils.ImageLoadUtils
 import open.movie.utils.ObjectSaveUtils
 import open.movie.utils.SPUtils
@@ -107,7 +107,7 @@ class VideoDetailActivity : AppCompatActivity() {
         })
     }
 
-    private fun prepareVideo() {
+    private fun prepareVideo() { //准备播放视频
         val uri = intent.getStringExtra("loaclFile")
         if (uri != null) {
             Log.e("uri", uri)
@@ -144,7 +144,11 @@ class VideoDetailActivity : AppCompatActivity() {
 
     }
 
-    private class ImageViewAsyncTask(private var handler: Handler, activity: VideoDetailActivity, private val mImageView: ImageView) : AsyncTask<String, Void, String>() {
+    private class ImageViewAsyncTask(
+            private var handler: Handler,
+            activity: VideoDetailActivity,
+            private val mImageView: ImageView
+    ) : AsyncTask<String, Void, String>() {
         private var mPath: String? = null
         private var mIs: FileInputStream? = null
         private var mActivity: VideoDetailActivity = activity

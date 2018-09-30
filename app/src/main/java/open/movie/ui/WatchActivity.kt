@@ -11,7 +11,7 @@ import com.gyf.barlibrary.ImmersionBar
 import kotlinx.android.synthetic.main.activity_watch.*
 import open.movie.R
 import open.movie.adapter.WatchAdapter
-import open.movie.mvp.model.bean.VideoBean
+import open.movie.utils.mvp.VideoBean
 import open.movie.utils.ObjectSaveUtils
 import open.movie.utils.SPUtils
 
@@ -52,7 +52,7 @@ class WatchActivity : AppCompatActivity() {
 
     private fun setToolbar() {
         setSupportActionBar(toolbar)
-        var bar = supportActionBar!!
+        val bar = supportActionBar!!
         bar.title = "观看记录"
         bar.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener {
@@ -68,7 +68,7 @@ class WatchActivity : AppCompatActivity() {
             var count: Int = SPUtils.getInstance(activity, "beans").getInt("count")
             var i = 1
             while (i.compareTo(count) <= 0) {
-                var bean:VideoBean = ObjectSaveUtils.getValue(activity, "bean$i") as VideoBean
+                var bean: VideoBean = ObjectSaveUtils.getValue(activity, "bean$i") as VideoBean
                 list.add(bean)
                 i++
             }

@@ -10,24 +10,24 @@ import open.movie.adapter.HotAdatpter
  * Created by lvruheng on 2017/7/4.
  */
 class HotFragment : BaseFragment() {
-    var mTabs = listOf<String>("周排行", "月排行", "总排行").toMutableList()
-    lateinit var mFragments: ArrayList<Fragment>
-    val STRATEGY = arrayOf("weekly", "monthly", "historical")
+    private var mTabs = listOf("周排行", "月排行", "总排行").toMutableList()
+    private lateinit var mFragments: ArrayList<Fragment>
+    private val STRATEGY = arrayOf("weekly", "monthly", "historical")
     override fun getLayoutResources(): Int {
         return R.layout.hot_fragment
     }
 
     override fun initView() {
-        var weekFragment: RankFragment = RankFragment()
-        var weekBundle = Bundle()
+        val weekFragment = RankFragment()
+        val weekBundle = Bundle()
         weekBundle.putString("strategy", STRATEGY[0])
         weekFragment.arguments = weekBundle
-        var monthFragment: RankFragment = RankFragment()
-        var monthBundle = Bundle()
+        val monthFragment = RankFragment()
+        val monthBundle = Bundle()
         monthBundle.putString("strategy", STRATEGY[1])
         monthFragment.arguments = monthBundle
-        var allFragment: RankFragment = RankFragment()
-        var allBundle = Bundle()
+        val allFragment = RankFragment()
+        val allBundle = Bundle()
         allBundle.putString("strategy", STRATEGY[2])
         allFragment.arguments = allBundle
         mFragments = ArrayList()

@@ -9,9 +9,9 @@ import com.gyf.barlibrary.ImmersionBar
 import kotlinx.android.synthetic.main.activity_result.*
 import open.movie.R
 import open.movie.adapter.FeedAdapter
-import open.movie.mvp.contract.ResultContract
-import open.movie.mvp.model.bean.HotBean
-import open.movie.mvp.presenter.ResultPresenter
+import open.movie.utils.mvp.ResultContract
+import open.movie.utils.mvp.HotBean
+import open.movie.utils.mvp.ResultPresenter
 
 class ResultActivity : AppCompatActivity(), ResultContract.View,
         SwipeRefreshLayout.OnRefreshListener {
@@ -56,7 +56,7 @@ class ResultActivity : AppCompatActivity(), ResultContract.View,
         }
     }
 
-    override fun setData(bean: open.movie.mvp.model.bean.HotBean) {
+    override fun setData(bean: HotBean) {
         if (mIsRefresh) {
             mIsRefresh = false
             refreshLayout.isRefreshing = false

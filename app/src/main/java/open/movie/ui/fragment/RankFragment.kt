@@ -5,9 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.rank_fragment.*
 import open.movie.R
 import open.movie.adapter.RankAdapter
-import open.movie.mvp.contract.HotContract
-import open.movie.mvp.model.bean.HotBean
-import open.movie.mvp.presenter.HotPresenter
+import open.movie.utils.mvp.HotContract
+import open.movie.utils.mvp.HotBean
+import open.movie.utils.mvp.HotPresenter
 
 /**
  * Created by lvruheng on 2017/7/6.
@@ -27,13 +27,13 @@ class RankFragment : BaseFragment(), HotContract.View {
         recyclerView.adapter = mAdapter
         if (arguments != null) {
             mStrategy = arguments!!.getString("strategy")
-            mPresenter = open.movie.mvp.presenter.HotPresenter(context!!, this)
+            mPresenter = HotPresenter(context!!, this)
             mPresenter.requestData(mStrategy)
         }
 
     }
 
-    override fun setData(bean: open.movie.mvp.model.bean.HotBean) {
+    override fun setData(bean: HotBean) {
         Log.e("rank", bean.toString())
         if (mList.size > 0) {
             mList.clear()

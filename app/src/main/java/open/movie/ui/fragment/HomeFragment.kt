@@ -6,10 +6,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.home_fragment.*
 import open.movie.R
 import open.movie.adapter.HomeAdapter
-import open.movie.mvp.contract.HomeContract
-import open.movie.mvp.model.bean.HomeBean
-import open.movie.mvp.model.bean.HomeBean.IssueListBean.ItemListBean
-import open.movie.mvp.presenter.HomePresenter
+import open.movie.utils.mvp.HomeContract
+import open.movie.utils.mvp.HomeBean
+import open.movie.utils.mvp.HomeBean.IssueListBean.ItemListBean
+import open.movie.utils.mvp.HomePresenter
 import java.util.*
 import java.util.regex.Pattern
 
@@ -49,9 +49,9 @@ class HomeFragment : BaseFragment(), HomeContract.View, SwipeRefreshLayout.OnRef
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 val layoutManager: LinearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
-                val lastPosition = layoutManager.findLastVisibleItemPosition()
+                val lastPosition = layoutManager.findLastVisibleItemPosition() //获取显示的选项位置
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastPosition == mList.size - 1) {
-                    mPresenter.moreData(data)
+                    mPresenter.moreData(data) //获取更多数据
                 }
             }
         })

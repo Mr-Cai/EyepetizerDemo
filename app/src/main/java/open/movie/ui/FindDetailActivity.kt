@@ -9,9 +9,9 @@ import com.gyf.barlibrary.ImmersionBar
 import kotlinx.android.synthetic.main.activity_find_detail.*
 import open.movie.R
 import open.movie.adapter.RankAdapter
-import open.movie.mvp.contract.FindDetailContract
-import open.movie.mvp.model.bean.HotBean
-import open.movie.mvp.presenter.FindDetailPresenter
+import open.movie.utils.mvp.FindDetailContract
+import open.movie.utils.mvp.HotBean
+import open.movie.utils.mvp.FindDetailPresenter
 import java.util.regex.Pattern
 
 /**
@@ -54,7 +54,7 @@ class FindDetailActivity : AppCompatActivity(), FindDetailContract.View, SwipeRe
         mAdapter = open.movie.adapter.RankAdapter(this, mList)
         recyclerView.adapter = mAdapter
         refreshLayout.setOnRefreshListener(this)
-        mPresenter = open.movie.mvp.presenter.FindDetailPresenter(this, this)
+        mPresenter = FindDetailPresenter(this, this)
         mPresenter.requestData(name, "date")
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -63,7 +63,7 @@ class FindDetailActivity : AppCompatActivity(), FindDetailContract.View, SwipeRe
                 var lastPositon = layoutManager.findLastVisibleItemPosition()
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastPositon == mList.size - 1) {
                     if (data != null) {
-                        mPresenter.requesMoreData(mstart, name, "date")
+                        mPresenter.requestMoreData(mstart, name, "date")
                         mstart = mstart.plus(10)
                     }
 

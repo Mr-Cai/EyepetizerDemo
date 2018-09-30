@@ -10,12 +10,12 @@ import androidx.fragment.app.Fragment
 import com.gyf.barlibrary.ImmersionBar
 import kotlinx.android.synthetic.main.activity_main.*
 import open.movie.R
-import open.movie.search.SEARCH_TAG
-import open.movie.search.SearchFragment
 import open.movie.ui.fragment.FindFragment
 import open.movie.ui.fragment.HomeFragment
 import open.movie.ui.fragment.HotFragment
 import open.movie.ui.fragment.MineFragment
+import open.movie.utils.search.SearchFragment
+import open.movie.utils.search.SearchFragment.Companion.SEARCH_TAG
 import open.movie.utils.showToast
 import java.util.*
 

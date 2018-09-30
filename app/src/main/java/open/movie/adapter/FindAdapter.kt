@@ -8,14 +8,15 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import open.movie.R
+import open.movie.utils.mvp.FindBean
 import open.movie.utils.ImageLoadUtils
 
 /**
  * Created by lvruheng on 2017/7/6.
  */
-class FindAdapter(context: Context, list: MutableList<open.movie.mvp.model.bean.FindBean>?) : BaseAdapter() {
+class FindAdapter(context: Context, list: MutableList<FindBean>?) : BaseAdapter() {
     var mContext: Context? = null
-    var mList: MutableList<open.movie.mvp.model.bean.FindBean>? = null
+    var mList: MutableList<FindBean>? = null
     var mInflater: LayoutInflater? = null
 
     init {
@@ -40,7 +41,7 @@ class FindAdapter(context: Context, list: MutableList<open.movie.mvp.model.bean.
         return view
     }
 
-    override fun getItem(position: Int): open.movie.mvp.model.bean.FindBean? {
+    override fun getItem(position: Int): FindBean? {
         return mList?.get(position)
     }
 

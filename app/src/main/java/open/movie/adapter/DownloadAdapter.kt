@@ -16,7 +16,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.disposables.Disposable
 import open.movie.R
-import open.movie.mvp.model.bean.VideoBean
+import open.movie.utils.mvp.VideoBean
 import open.movie.ui.VideoDetailActivity
 import open.movie.utils.ImageLoadUtils
 import open.movie.utils.SPUtils
@@ -30,7 +30,7 @@ class DownloadAdapter(context: Context, list: ArrayList<VideoBean>) : RecyclerVi
 
     lateinit var mOnLongLisenter: open.movie.adapter.DownloadAdapter.OnLongClickListener
     var context: Context? = null
-    var list: ArrayList<open.movie.mvp.model.bean.VideoBean>? = null
+    var list: ArrayList<VideoBean>? = null
     var inflater: LayoutInflater? = null
     var isDownload = false
     var hasLoaded = false
@@ -85,7 +85,7 @@ class DownloadAdapter(context: Context, list: ArrayList<VideoBean>) : RecyclerVi
             var share = list?.get(position)?.share
             var reply = list?.get(position)?.reply
             var time = System.currentTimeMillis()
-            var videoBean = open.movie.mvp.model.bean.VideoBean(photoUrl, title, desc, duration, playUrl, category, blurred, collect, share, reply, time)
+            var videoBean = VideoBean(photoUrl, title, desc, duration, playUrl, category, blurred, collect, share, reply, time)
             var url = SPUtils.getInstance(context!!, "beans").getString(playUrl!!)
             intent.putExtra("data", videoBean as Parcelable)
             if (hasLoaded) {

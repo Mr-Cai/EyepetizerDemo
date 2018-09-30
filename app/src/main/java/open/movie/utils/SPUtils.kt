@@ -1,83 +1,56 @@
 package open.movie.utils
 
 import android.content.Context
-import android.content.SharedPreferences
 import java.util.*
 
 class SPUtils private constructor(context: Context, spName: String) {
-    private val sp: SharedPreferences
-
-    init {
-        sp = context.getSharedPreferences(spName, Context.MODE_PRIVATE)
-    }
-
+    private val preferences = context.getSharedPreferences(spName, Context.MODE_PRIVATE)
     fun put(key: String, value: String) {
-        sp.edit().putString(key, value).apply()
+        preferences.edit().putString(key, value).apply()
     }
 
     @JvmOverloads
     fun getString(key: String, defaultValue: String = ""): String {
-        return sp.getString(key, defaultValue)
+        return preferences.getString(key, defaultValue)!!
     }
 
     fun put(key: String, value: Int) {
-        sp.edit().putInt(key, value).apply()
+        preferences.edit().putInt(key, value).apply()
     }
 
     @JvmOverloads
     fun getInt(key: String, defaultValue: Int = -1): Int {
-        return sp.getInt(key, defaultValue)
+        return preferences.getInt(key, defaultValue)
     }
 
     fun put(key: String, value: Long) {
-        sp.edit().putLong(key, value).apply()
-    }
-
-    @JvmOverloads
-    fun getLong(key: String, defaultValue: Long = -1L): Long {
-        return sp.getLong(key, defaultValue)
+        preferences.edit().putLong(key, value).apply()
     }
 
     fun put(key: String, value: Float) {
-        sp.edit().putFloat(key, value).apply()
-    }
-
-
-    @JvmOverloads
-    fun getFloat(key: String, defaultValue: Float = -1f): Float {
-        return sp.getFloat(key, defaultValue)
+        preferences.edit().putFloat(key, value).apply()
     }
 
     fun put(key: String, value: Boolean) {
-        sp.edit().putBoolean(key, value).apply()
+        preferences.edit().putBoolean(key, value).apply()
     }
 
     @JvmOverloads
     fun getBoolean(key: String, defaultValue: Boolean = false): Boolean {
-        return sp.getBoolean(key, defaultValue)
+        return preferences.getBoolean(key, defaultValue)
     }
 
     fun put(key: String, values: Set<String>) {
-        sp.edit().putStringSet(key, values).apply()
+        preferences.edit().putStringSet(key, values).apply()
     }
 
-    @JvmOverloads
-    fun getStringSet(key: String, defaultValue: Set<String> = Collections.emptySet()): Set<String> {
-        return sp.getStringSet(key, defaultValue)
-    }
-    val all: Map<String, *>
-        get() = sp.all
-
-    fun remove(key: String) {
-        sp.edit().remove(key).apply()
-    }
-
+    val all: Map<String, *> get() = preferences.all
     operator fun contains(key: String): Boolean {
-        return sp.contains(key)
+        return preferences.contains(key)
     }
 
     fun clear() {
-        sp.edit().clear().apply()
+        preferences.edit().clear().apply()
     }
 
     companion object {
@@ -85,12 +58,12 @@ class SPUtils private constructor(context: Context, spName: String) {
         private val sSPMap = HashMap<String, SPUtils>()
 
         fun getInstance(context: Context, spName: String): SPUtils {
-            var spName = spName
-            if (isSpace(spName)) spName = "spUtils"
-            var sp: SPUtils? = sSPMap[spName]
+            var name = spName
+            if (isSpace(name)) name = "spUtils"
+            var sp: SPUtils? = sSPMap[name]
             if (sp == null) {
-                sp = SPUtils(context, spName)
-                sSPMap.put(spName, sp)
+                sp = SPUtils(context, name)
+                sSPMap[name] = sp
             }
             return sp
         }
