@@ -1,6 +1,5 @@
 package open.movie.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
@@ -8,39 +7,29 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_home.view.*
 import open.movie.R
-import open.movie.utils.mvp.HomeBean
-import open.movie.utils.mvp.VideoBean
-import open.movie.ui.VideoDetailActivity
+import open.movie.adapter.HomeAdapter.HomeViewHolder
+import open.movie.ui.activity.VideoDetailActivity
 import open.movie.utils.ImageLoadUtils
 import open.movie.utils.ObjectSaveUtils
 import open.movie.utils.SPUtils
+import open.movie.utils.mvp.HomeBean.IssueListBean.ItemListBean
+import open.movie.utils.mvp.VideoBean
 
 class HomeAdapter(
-        context: Context,
-        list: MutableList<HomeBean.IssueListBean.ItemListBean>?
-) : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
-    var context: Context? = null
-    var list: MutableList<HomeBean.IssueListBean.ItemListBean>
-    private var inflater: LayoutInflater
-
-    init {
-        this.context = context
-        this.list = list!!
-        this.inflater = LayoutInflater.from(context)
-    }
-
+        var context: Context,
+        var list: MutableList<ItemListBean>
+) : RecyclerView.Adapter<HomeViewHolder>() {
     override fun getItemCount(): Int = list.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = HomeViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_home, parent, false), context)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            HomeAdapter.HomeViewHolder(inflater.inflate(R.layout.item_home, parent, false), context!!)
-
-    @SuppressLint("SetTextI18n")
-    override fun onBindViewHolder(holder: HomeAdapter.HomeViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         val bean = list[position]
         val title = bean.data.title
         val category = bean.data.category
@@ -48,26 +37,17 @@ class HomeAdapter(
         val second = bean.data.duration?.minus((minute?.times(60)) as Long)
         val realMinute: String
         val realSecond: String
-        realMinute = if (minute!! < 10) {
-            "0$minute"
-        } else {
-            minute.toString()
-        }
-        realSecond = if (second!! < 10) {
-            "0$second"
-        } else {
-            second.toString()
-        }
+        realMinute = (if (minute!! < 10) "0$minute" else minute.toString())
+        realSecond = (if (second!! < 10) "0$second" else second.toString())
         val photo = bean.data.cover?.feed
         val author = bean.data.author
-        ImageLoadUtils.display(context!!, holder.photoPic, photo as String)
+        ImageLoadUtils.display(context, holder.photoPic, photo as String)
         holder.titleTxT.text = title
-        holder.detailTxT.text = "发布于$category/$realMinute:$realSecond"
-        if (author != null) {
-            ImageLoadUtils.display(context!!, holder.userPic, author.icon)
-        } else {
-            holder.userPic?.visibility = View.GONE
-        }
+        holder.detailTxT.text = String.format(context.getString(R.string.publish_time),
+                category, realMinute, realSecond)
+        ImageLoadUtils.display(context, holder.userPic, author!!.icon)
+        holder.itemView.startAnimation(AnimationUtils.loadAnimation(context,
+                androidx.appcompat.R.anim.abc_grow_fade_in_from_bottom))
         holder.itemView.setOnClickListener {
             //跳转视频详情页
             val intent = Intent(context, VideoDetailActivity::class.java)
@@ -92,16 +72,16 @@ class HomeAdapter(
                     reply,
                     time
             )
-            val url = SPUtils.getInstance(context!!, "beans").getString(playUrl)
+            val url = SPUtils.getInstance(context, "beans").getString(playUrl)
             if (url == "") {
-                var count = SPUtils.getInstance(context!!, "beans").getInt("count")
+                var count = SPUtils.getInstance(context, "beans").getInt("count")
                 count = (if (count != -1) count.inc() else 1)
-                SPUtils.getInstance(context!!, "beans").put("count", count)
-                SPUtils.getInstance(context!!, "beans").put(playUrl, playUrl)
-                ObjectSaveUtils.saveObject(context!!, "bean$count", videoBean)
+                SPUtils.getInstance(context, "beans").put("count", count)
+                SPUtils.getInstance(context, "beans").put(playUrl, playUrl)
+                ObjectSaveUtils.saveObject(context, "bean$count", videoBean)
             }
             intent.putExtra("data", videoBean as Parcelable)
-            context?.startActivity(intent)
+            context.startActivity(intent)
         }
     }
 
@@ -112,7 +92,8 @@ class HomeAdapter(
         var userPic: ImageView? = itemView.iv_user
 
         init {
-            titleTxT.typeface = Typeface.createFromAsset(context.assets, "fonts/FZLanTingHeiS-DB1-GB-Regular.TTF")
+            titleTxT.typeface = Typeface.createFromAsset(context.assets,
+                    "fonts/FZLanTingHeiS-DB1-GB-Regular.TTF")
         }
     }
 

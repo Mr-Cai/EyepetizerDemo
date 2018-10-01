@@ -1,5 +1,6 @@
 package open.movie.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
@@ -11,22 +12,20 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import open.movie.R
-import open.movie.utils.mvp.HotBean
-import open.movie.utils.mvp.VideoBean
-import open.movie.ui.VideoDetailActivity
+import open.movie.ui.activity.VideoDetailActivity
 import open.movie.utils.ImageLoadUtils
 import open.movie.utils.ObjectSaveUtils
 import open.movie.utils.SPUtils
+import open.movie.utils.mvp.HotBean
+import open.movie.utils.mvp.VideoBean
 import java.text.SimpleDateFormat
 
-/**
- * Created by lvruheng on 2017/7/7.
- */
-class FeedAdapter(context: Context, list: ArrayList<HotBean.ItemListBean.DataBean>) : RecyclerView.Adapter<open.movie.adapter.FeedAdapter.FeedViewHolder>() {
+class FeedAdapter(context: Context, list: ArrayList<HotBean.ItemListBean.DataBean>) :
+        RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
 
     var context: Context? = null
     var list: ArrayList<HotBean.ItemListBean.DataBean>? = null
-    var inflater: LayoutInflater? = null
+    private var inflater: LayoutInflater? = null
 
     init {
         this.context = context
@@ -39,38 +38,38 @@ class FeedAdapter(context: Context, list: ArrayList<HotBean.ItemListBean.DataBea
         return list?.size ?: 0
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): open.movie.adapter.FeedAdapter.FeedViewHolder {
-        return open.movie.adapter.FeedAdapter.FeedViewHolder(inflater?.inflate(R.layout.item_feed_result, parent, false), context!!)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedAdapter.FeedViewHolder =
+            FeedAdapter.FeedViewHolder(inflater?.inflate(R.layout.item_feed_result, parent, false), context!!)
 
+    @SuppressLint("SimpleDateFormat", "SetTextI18n")
     override fun onBindViewHolder(holder: open.movie.adapter.FeedAdapter.FeedViewHolder, position: Int) {
-        var photoUrl: String? = list?.get(position)?.cover?.feed
+        val photoUrl: String? = list?.get(position)?.cover?.feed
         photoUrl?.let { ImageLoadUtils.display(context!!, holder.iv_photo, it) }
-        var title: String? = list?.get(position)?.title
+        val title: String? = list?.get(position)?.title
         holder.tv_title.text = title
-        var category = list?.get(position)?.category
-        var duration = list?.get(position)?.duration
-        var minute = duration?.div(60)
-        var second = duration?.minus((minute?.times(60)) as Long)
-        var releaseTime = list?.get(position)?.releaseTime
-        var smf: SimpleDateFormat = SimpleDateFormat("MM-dd")
-        var date = smf.format(releaseTime)
-        var realMinute: String
-        var realSecond: String
-        if (minute!! < 10) {
-            realMinute = "0" + minute
+        val category = list?.get(position)?.category
+        val duration = list?.get(position)?.duration
+        val minute = duration?.div(60)
+        val second = duration?.minus((minute?.times(60)) as Long)
+        val releaseTime = list?.get(position)?.releaseTime
+        val smf = SimpleDateFormat("MM-dd")
+        val date = smf.format(releaseTime)
+        val realMinute: String
+        val realSecond: String
+        realMinute = if (minute!! < 10) {
+            "0$minute"
         } else {
-            realMinute = minute.toString()
+            minute.toString()
         }
-        if (second!! < 10) {
-            realSecond = "0" + second
+        realSecond = if (second!! < 10) {
+            "0$second"
         } else {
-            realSecond = second.toString()
+            second.toString()
         }
         holder.tv_time.text = "$category / $realMinute'$realSecond'' / $date"
         holder.itemView.setOnClickListener {
             //跳转视频详情页
-            var intent: Intent = Intent(context, VideoDetailActivity::class.java)
+            val intent: Intent = Intent(context, VideoDetailActivity::class.java)
             var desc = list?.get(position)?.description
             var playUrl = list?.get(position)?.playUrl
             var blurred = list?.get(position)?.cover?.blurred

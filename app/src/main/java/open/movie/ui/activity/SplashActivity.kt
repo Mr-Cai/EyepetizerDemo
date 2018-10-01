@@ -1,4 +1,4 @@
-package open.movie.ui
+package open.movie.ui.activity
 
 import android.graphics.Typeface
 import android.os.Bundle

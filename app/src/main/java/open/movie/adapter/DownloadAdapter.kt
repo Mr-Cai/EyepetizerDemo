@@ -17,24 +17,21 @@ import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.disposables.Disposable
 import open.movie.R
 import open.movie.utils.mvp.VideoBean
-import open.movie.ui.VideoDetailActivity
+import open.movie.ui.activity.VideoDetailActivity
 import open.movie.utils.ImageLoadUtils
 import open.movie.utils.SPUtils
 import zlc.season.rxdownload2.RxDownload
 import zlc.season.rxdownload2.entity.DownloadFlag
 
-/**
- * Created by lvruheng on 2017/7/7.
- */
 class DownloadAdapter(context: Context, list: ArrayList<VideoBean>) : RecyclerView.Adapter<DownloadAdapter.DownloadViewHolder>() {
 
-    lateinit var mOnLongLisenter: open.movie.adapter.DownloadAdapter.OnLongClickListener
+    private lateinit var longListener: open.movie.adapter.DownloadAdapter.OnLongClickListener
     var context: Context? = null
     var list: ArrayList<VideoBean>? = null
-    var inflater: LayoutInflater? = null
-    var isDownload = false
-    var hasLoaded = false
-    lateinit var disposable: Disposable
+    private var inflater: LayoutInflater? = null
+    private var isDownload = false
+    private var hasLoaded = false
+    private lateinit var disposable: Disposable
 
     init {
         this.context = context
@@ -97,7 +94,7 @@ class DownloadAdapter(context: Context, list: ArrayList<VideoBean>) : RecyclerVi
             context?.let { context -> context.startActivity(intent) }
         }
         holder.itemView.setOnLongClickListener {
-            mOnLongLisenter.onLongClick(position)
+            longListener.onLongClick(position)
             true
         }
     }
@@ -166,6 +163,6 @@ class DownloadAdapter(context: Context, list: ArrayList<VideoBean>) : RecyclerVi
     }
 
     fun setOnLongClickListener(onLongClickListener: open.movie.adapter.DownloadAdapter.OnLongClickListener) {
-        mOnLongLisenter = onLongClickListener
+        longListener = onLongClickListener
     }
 }

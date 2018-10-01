@@ -1,4 +1,4 @@
-package open.movie.ui
+package open.movie.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

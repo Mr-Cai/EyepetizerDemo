@@ -1,4 +1,4 @@
-package open.movie.ui
+package open.movie.ui.activity
 
 import android.annotation.SuppressLint
 import android.content.Context

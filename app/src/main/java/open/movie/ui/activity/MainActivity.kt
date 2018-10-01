@@ -1,4 +1,4 @@
-package open.movie.ui
+package open.movie.ui.activity
 
 import android.graphics.Typeface
 import android.os.Bundle
@@ -14,8 +14,8 @@ import open.movie.ui.fragment.FindFragment
 import open.movie.ui.fragment.HomeFragment
 import open.movie.ui.fragment.HotFragment
 import open.movie.ui.fragment.MineFragment
-import open.movie.utils.search.SearchFragment
-import open.movie.utils.search.SearchFragment.Companion.SEARCH_TAG
+import open.movie.ui.fragment.SearchFragment
+import open.movie.ui.fragment.SearchFragment.Companion.SEARCH_TAG
 import open.movie.utils.showToast
 import java.util.*
 

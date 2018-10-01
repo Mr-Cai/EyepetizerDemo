@@ -10,7 +10,11 @@ abstract class BaseFragment : Fragment() {
     private var isFirst: Boolean = false
     private var rootView: View? = null
     private var isFragmentVisible: Boolean = false
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
         if (rootView == null) rootView = inflater.inflate(getLayoutResources(), container, false)
         return rootView
     }
@@ -18,24 +22,17 @@ abstract class BaseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
-        if (isVisibleToUser) {
-            isFragmentVisible = true
-        }
-        if (rootView == null) {
-            return
-        }
-        //可见，并且没有加载过
-        if (!isFirst && isFragmentVisible) {
+        if (isVisibleToUser) isFragmentVisible = true
+        if (rootView == null) return
+        if (!isFirst && isFragmentVisible) { //可见，并且没有加载过
             onFragmentVisibleChange(true)
             return
         }
-        //由可见——>不可见 已经加载过
-        if (isFragmentVisible) {
+        if (isFragmentVisible) {  //由可见——>不可见 已经加载过
             onFragmentVisibleChange(false)
             isFragmentVisible = false
         }

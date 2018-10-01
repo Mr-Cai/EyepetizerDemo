@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexboxLayoutManager
 import open.movie.R
-import open.movie.ui.ResultActivity
+import open.movie.ui.activity.ResultActivity
 
 
 /**

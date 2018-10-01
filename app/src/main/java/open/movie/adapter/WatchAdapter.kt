@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import open.movie.R
 import open.movie.utils.mvp.VideoBean
-import open.movie.ui.VideoDetailActivity
+import open.movie.ui.activity.VideoDetailActivity
 import open.movie.utils.ImageLoadUtils
 import open.movie.utils.ObjectSaveUtils
 import open.movie.utils.SPUtils

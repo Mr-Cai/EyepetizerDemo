@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">开眼视频</string>
+    <string name="publish_time">发表于%1$s\t时长:%2$s分%3$s秒</string>
 </resources>

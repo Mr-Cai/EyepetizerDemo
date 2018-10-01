@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="open.movie.ui.SplashActivity"
+            android:name="open.movie.ui.activity.SplashActivity"
             android:theme="@style/Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,18 +26,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="open.movie.ui.MainActivity"
+            android:name="open.movie.ui.activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="open.movie.ui.VideoDetailActivity"
+            android:name="open.movie.ui.activity.VideoDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/Video" />
-        <activity android:name="open.movie.ui.FindDetailActivity" />
-        <activity android:name="open.movie.ui.ResultActivity" />
-        <activity android:name="open.movie.ui.WatchActivity" />
-        <activity android:name="open.movie.ui.AdviseActivity" />
-        <activity android:name="open.movie.ui.CacheActivity" />
+        <activity android:name="open.movie.ui.activity.FindDetailActivity" />
+        <activity android:name="open.movie.ui.activity.ResultActivity" />
+        <activity android:name="open.movie.ui.activity.WatchActivity" />
+        <activity android:name="open.movie.ui.activity.AdviseActivity" />
+        <activity android:name="open.movie.ui.activity.CacheActivity" />
     </application>
 
 </manifest>

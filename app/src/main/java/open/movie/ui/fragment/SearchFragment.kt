@@ -1,4 +1,4 @@
-package open.movie.utils.search
+package open.movie.ui.fragment
 
 import android.content.DialogInterface
 import android.content.Intent
@@ -15,8 +15,9 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import kotlinx.android.synthetic.main.search_fragment.*
 import open.movie.R
 import open.movie.adapter.SearchAdapter
-import open.movie.ui.ResultActivity
+import open.movie.ui.activity.ResultActivity
 import open.movie.utils.KeyBoardUtils
+import open.movie.utils.search.CircularRevealAnim
 
 class SearchFragment : DialogFragment(), CircularRevealAnim.AnimListener,
         ViewTreeObserver.OnPreDrawListener, DialogInterface.OnKeyListener,

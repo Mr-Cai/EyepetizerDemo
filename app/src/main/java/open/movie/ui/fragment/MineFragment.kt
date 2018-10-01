@@ -5,9 +5,9 @@ import android.graphics.Typeface
 import android.view.View
 import kotlinx.android.synthetic.main.mine_fragment.*
 import open.movie.R
-import open.movie.ui.AdviseActivity
-import open.movie.ui.CacheActivity
-import open.movie.ui.WatchActivity
+import open.movie.ui.activity.AdviseActivity
+import open.movie.ui.activity.CacheActivity
+import open.movie.ui.activity.WatchActivity
 
 /**
  * Created by lvruheng on 2017/7/4.

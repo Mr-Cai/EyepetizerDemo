@@ -6,7 +6,7 @@ import open.movie.R
 import open.movie.utils.mvp.FindBean
 import open.movie.utils.mvp.FindContract
 import open.movie.utils.mvp.FindPresenter
-import open.movie.ui.FindDetailActivity
+import open.movie.ui.activity.FindDetailActivity
 
 /**
  * Created by lvruheng on 2017/7/4.
